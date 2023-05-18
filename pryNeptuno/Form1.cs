@@ -45,7 +45,24 @@ namespace pryNeptuno
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        public void cargarGrilla()
+        {
+            while (dataReaderDB.Read())
+            {
+                dgvClientes.Rows.Add(dataReaderDB[1], dataReaderDB[2], dataReaderDB[3], dataReaderDB[4], dataReaderDB[7], dataReaderDB[8], dataReaderDB[10]);
+            }
+        }
+
+        public void agregarCiudad()
+        {
+            conectarBASE();
+            while (dataReaderDB.Read())
+            { 
+                cmbMostrarCiudad.Items.Add(dataReaderDB[5]);
+            }
+        }
+
+        public void agregarCargos()
         {
             conectarBASE();
             while (dataReaderDB.Read())
@@ -54,18 +71,37 @@ namespace pryNeptuno
             }
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            agregarCargos();
+            agregarCiudad();
+        }
+
         private void btnMostrarTodos_Click(object sender, EventArgs e)
         {
             conectarBASE();
-            while (dataReaderDB.Read())
-            {
-                dgvClientes.Rows.Add(dataReaderDB[1], dataReaderDB[2], dataReaderDB[3], dataReaderDB[4], dataReaderDB[7], dataReaderDB[8], dataReaderDB[10]);
-            }
+            cargarGrilla();
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             dgvClientes.Rows.Clear();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string cargoSeleccionado = cmbCargos.Text;
+            if (cmbCargos.SelectedIndex != -1)
+            {
+                conectarBASE();
+                while (dataReaderDB.Read())
+                {
+                    while (dataReaderDB[3].ToString() == cargoSeleccionado)
+                    {
+                        cargarGrilla();
+                    }
+                }
+            }
         }
     }
 }
