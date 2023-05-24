@@ -17,28 +17,11 @@ namespace pryNeptuno
         {
             InitializeComponent();
         }
-        //public void agregarCiudad()
-        //{
-        //    conectarBASE();
-        //    while (dataReaderDB.Read())
-        //    { 
-        //        cmbMostrarCiudad.Items.Add(dataReaderDB[5]);
-        //    }
-        //}
-
-        //public void agregarCargos()
-        //{
-        //    conectarBASE();
-        //    while (dataReaderDB.Read())
-        //    {
-        //        cmbCargos.Items.Add(dataReaderDB[3]);
-        //    }
-        //}
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //agregarCargos();
-            //agregarCiudad();
+            ClassManejoBD objDbCargo = new ClassManejoBD();
+            objDbCargo.cargarComboCargos(cmbCargos, cmbMostrarCiudad);
         }
 
         private void btnMostrarTodos_Click(object sender, EventArgs e)
@@ -52,10 +35,16 @@ namespace pryNeptuno
             dgvClientes.Rows.Clear();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void cmbMostrarCiudad_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ClassManejoBD objDbCargo = new ClassManejoBD();
-            objDbCargo.cargarComboCargos(cmbCargos);
+            ClassManejoBD objMostarCiudad = new ClassManejoBD();
+            objMostarCiudad.filtarGrillaCiudad(cmbCargos, cmbMostrarCiudad, dgvClientes);
+        }
+
+        private void cmbCargos_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ClassManejoBD objMostarCargo = new ClassManejoBD();
+            objMostarCargo.filtarGrillaCargo(cmbCargos, cmbMostrarCiudad, dgvClientes);
         }
     }
 }
